@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Sutas Barcode</string>
     <string name="lbl_scan">Scan QR Code</string>
+    <string name="lbl_sent">Kirim QR Code</string>
 </resources>

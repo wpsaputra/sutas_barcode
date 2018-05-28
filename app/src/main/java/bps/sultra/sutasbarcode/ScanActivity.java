@@ -3,6 +3,7 @@ package bps.sultra.sutasbarcode;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -32,11 +33,11 @@ public class ScanActivity extends AppCompatActivity implements BarcodeReader.Bar
         // playing barcode reader beep sound
         barcodeReader.playBeep();
 
-        // ticket details activity by passing barcode
-//        Intent intent = new Intent(ScanActivity.this, TicketResultActivity.class);
-//        intent.putExtra("code", barcode.displayValue);
-//        startActivity(intent);
-        Toast.makeText(this, barcode.displayValue,  Toast.LENGTH_LONG).show();
+        // sent activity by passing barcode
+        Intent intent = new Intent(ScanActivity.this, SentActivity.class);
+        intent.putExtra("code", barcode.displayValue);
+        startActivity(intent);
+//        Toast.makeText(getApplicationContext(), barcode.displayValue,  Toast.LENGTH_LONG).show();
     }
 
     @Override

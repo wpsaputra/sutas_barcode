@@ -18,8 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ScanActivity"
-            android:label="@string/lbl_scan"></activity>
+        <activity
+            android:name=".ScanActivity"
+            android:label="@string/lbl_scan" />
+        <activity android:name=".SentActivity"
+            android:label="@string/lbl_sent"></activity>
     </application>
 
 </manifest>
