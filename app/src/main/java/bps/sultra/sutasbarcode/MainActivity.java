@@ -1,6 +1,7 @@
 package bps.sultra.sutasbarcode;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,12 @@ public class MainActivity extends AppCompatActivity {
         // making toolbar transparent
         transparentToolbar();
         setContentView(R.layout.activity_main);
+        findViewById(R.id.btn_scan).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ScanActivity.class));
+            }
+        });
     }
 
     private void transparentToolbar() {
