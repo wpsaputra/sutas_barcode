@@ -1,14 +1,25 @@
-package bps.sultra.sutasbarcode;
+package bps.sultra.sutasbarcode.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.SubscriptionInfo;
+import android.telephony.SubscriptionManager;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+
+import java.util.List;
+
+import bps.sultra.sutasbarcode.R;
 
 public class SentActivity extends AppCompatActivity {
     String barcode;
@@ -44,7 +55,7 @@ public class SentActivity extends AppCompatActivity {
                 .setCancelable(false)
                 .setPositiveButton("Kirim",
                         new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                            public void onClick(DialogInterface dialog, int id) {
 //                                String username = edit_name.getText().toString();
 //                                String password = edit_password.getText().toString();
 //                                ModelLogin modelLogin = new ModelLogin(context);
@@ -67,7 +78,7 @@ public class SentActivity extends AppCompatActivity {
                         })
                 .setNegativeButton("Batal",
                         new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                            public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                             }
                         });
@@ -85,5 +96,32 @@ public class SentActivity extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void getPhoneNumbers() {
+//        SubscriptionManager subscriptionManager = SubscriptionManager.from(getApplicationContext());
+//        List<SubscriptionInfo> subsInfoList = subscriptionManager.getActiveSubscriptionInfoList();
+//
+//        Log.d("Test", "Current list = " + subsInfoList);
+//
+//        for (SubscriptionInfo subscriptionInfo : subsInfoList) {
+//
+//            String number = subscriptionInfo.getNumber();
+//
+//            Log.d("Test", " Number is  " + number);
+//        }
+
+        TelephonyManager tMgr = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        String mPhoneNumber = tMgr.getLine1Number();
     }
 }

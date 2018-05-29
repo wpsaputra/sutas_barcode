@@ -1,9 +1,8 @@
-package bps.sultra.sutasbarcode;
+package bps.sultra.sutasbarcode.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -12,6 +11,7 @@ import com.google.android.gms.vision.barcode.Barcode;
 
 import java.util.List;
 
+import bps.sultra.sutasbarcode.R;
 import info.androidhive.barcode.BarcodeReader;
 
 public class ScanActivity extends AppCompatActivity implements BarcodeReader.BarcodeReaderListener {
