@@ -16,10 +16,19 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.List;
 
 import bps.sultra.sutasbarcode.R;
+import bps.sultra.sutasbarcode.model.Batch;
+import bps.sultra.sutasbarcode.model.Hp;
+import bps.sultra.sutasbarcode.network.ApiClient;
+import bps.sultra.sutasbarcode.network.ApiInterface;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SentActivity extends AppCompatActivity {
     String barcode;
@@ -33,6 +42,8 @@ public class SentActivity extends AppCompatActivity {
         barcode = getIntent().getStringExtra("code");
 //        Toast.makeText(getApplicationContext(), barcode,  Toast.LENGTH_LONG).show();
         showDokDialog(this);
+//        saveBatch();
+//        saveHp();
     }
 
     private void showDokDialog(final Context context) {
@@ -72,6 +83,8 @@ public class SentActivity extends AppCompatActivity {
 //                                }
 //
 //                                initializeLogin(context);
+
+                                saveHp(edit_l1.getText().toString(), edit_l2.getText().toString());
 
 
                             }
@@ -124,4 +137,79 @@ public class SentActivity extends AppCompatActivity {
         }
         String mPhoneNumber = tMgr.getLine1Number();
     }
+
+    public void saveBatch(){
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Batch batch = new Batch();
+        batch.setKodeProp("74");
+        batch.setKodeKab("05");
+        batch.setKodeKec("001");
+        batch.setKodeDesa("001");
+        batch.setKodeBs("001B");
+        batch.setJumlahL1(7);
+        batch.setJumlahL2(9);
+
+        Toast.makeText(getApplicationContext(), "tess",  Toast.LENGTH_LONG).show();
+
+        apiService.savePost(batch).enqueue(new Callback<Batch>() {
+            @Override
+            public void onResponse(Call<Batch> call, Response<Batch> response) {
+                if(response.isSuccessful()) {
+//                    showResponse(response.body().toString());
+                    Log.i("REST_API", "post submitted to API." + response.body().toString());
+                    Toast.makeText(getApplicationContext(), response.body().toString(),  Toast.LENGTH_LONG).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Batch> call, Throwable t) {
+                Log.e("REST_API", "Unable to submit post to API.");
+                Toast.makeText(getApplicationContext(), "Unable to submit post to API.",  Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+    }
+
+    public void saveHp(String no_hp, String nama) {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+
+//        Toast.makeText(getApplicationContext(), "tes save hp", Toast.LENGTH_LONG).show();
+
+
+//        apiService.saveHp(no_hp, nama, 1).enqueue(new Callback<Hp>() {
+//            @Override
+//            public void onResponse(Call<Hp> call, Response<Hp> response) {
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Hp> call, Throwable t) {
+//            }
+//
+//
+//        });
+
+        apiService.saveHp2("{\"no_hp\":\"nobanobaye\", \"nama\":\"dsadasd\", \"id_status\":2}").enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()) {
+//                    showResponse(response.body().toString());
+                    Log.i("REST_API", "post submitted to API." + response.body().toString());
+                    Toast.makeText(getApplicationContext(), "success"+response.body().toString()+"code"+response.code(),  Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "fail"+t.getMessage().toString(),  Toast.LENGTH_LONG).show();
+
+
+            }
+        });
+    }
+
+
 }
