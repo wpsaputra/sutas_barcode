@@ -43,6 +43,33 @@
         android:enabled="false"/>
 
     <EditText
+        android:id="@+id/edithp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:enabled="false"
+        android:hint="No HP"
+        android:inputType="text"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/editnama"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:enabled="false"
+        android:hint="Nama"
+        android:inputType="text"
+        android:textSize="14sp" />
+
+    <Spinner
+        android:id="@+id/spinner_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
         android:id="@+id/editl1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,4 +87,11 @@
         android:inputType="text|number"
         android:textSize="14sp"
         android:hint="Jumlah Dokumen L2"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone" />
 </LinearLayout>
