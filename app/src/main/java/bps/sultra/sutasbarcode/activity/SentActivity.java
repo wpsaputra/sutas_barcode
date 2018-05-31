@@ -16,7 +16,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ import bps.sultra.sutasbarcode.R;
 import bps.sultra.sutasbarcode.database.ModelLogin;
 import bps.sultra.sutasbarcode.model.Batch;
 import bps.sultra.sutasbarcode.model.Hp;
+import bps.sultra.sutasbarcode.model.Login;
 import bps.sultra.sutasbarcode.network.ApiClient;
 import bps.sultra.sutasbarcode.network.ApiInterface;
 import okhttp3.ResponseBody;
@@ -34,13 +37,23 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SentActivity extends AppCompatActivity {
-    String barcode;
+    String barcode, status;
+    AlertDialog alertDialog;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sent);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Button btn_back = findViewById(R.id.btn_back);
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeActivity();
+            }
+        });
 
         barcode = getIntent().getStringExtra("code");
         showDokDialog(this);
@@ -58,6 +71,7 @@ public class SentActivity extends AppCompatActivity {
         final EditText edit_no_hp = (EditText) promptsView.findViewById(R.id.edithp);
         final EditText edit_nama = (EditText) promptsView.findViewById(R.id.editnama);
         final Spinner spinner_status = promptsView.findViewById(R.id.spinner_status);
+        progressBar = promptsView.findViewById(R.id.progressBar);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.status_array, R.layout.style_spinner);
@@ -69,9 +83,6 @@ public class SentActivity extends AppCompatActivity {
         edit_no_hp.setText(modelLogin.getById(1).getNo_hp());
         edit_nama.setText(modelLogin.getById(1).getNama());
         spinner_status.setSelection(modelLogin.getById(1).getId_status()-1);
-
-
-
 
         final EditText edit_l1 = (EditText) promptsView.findViewById(R.id.editl1);
         final EditText edit_l2 = (EditText) promptsView.findViewById(R.id.editl2);
@@ -86,7 +97,31 @@ public class SentActivity extends AppCompatActivity {
                 .setNegativeButton("Batal", null);
 
         // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog = alertDialogBuilder.create();
+
+        // add listener
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button button = ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // TODO Do something
+                        if(edit_l1.getText().toString().length()>0&&edit_l2.getText().toString().length()>0){
+                            //Dismiss once everything is OK.
+//                            saveHp(edit_no_hp.getText().toString(), edit_nama.getText().toString(), spinner_status.getSelectedItemPosition()+1);
+                            saveBatch(edit_blok.getText().toString(), edit_no_hp.getText().toString(),
+                                    spinner_status.getSelectedItemPosition()+1, edit_l1.getText().toString(), edit_l2.getText().toString());
+                            progressBar.setVisibility(View.VISIBLE);
+
+                        }else{
+                            Toast.makeText(context, "Isian jumlah L1/L2 ada yang kurang lengkap/kosong", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+        });
 
         // show it
         alertDialog.show();
@@ -98,6 +133,61 @@ public class SentActivity extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void saveBatch(final String blok, final String no_hp, final int id_status, final String l1, final String l2) {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        String template = "{\"kode_prop\":\"x1\",\"kode_kab\":\"x2\",\"kode_kec\":\"x3\"," +
+                "\"kode_desa\":\"x4\",\"kode_bs\":\"x5\",\"no_hp\":\"x6\",\"id_status\":x7,\"jumlah_l1\":x8,\"jumlah_l2\":x9}";
+//        template = template.replace("x1", no_hp);
+//        template = template.replace("x2", nama);
+//        template = template.replace("x3", String.valueOf(id_status));
+        String[] split = blok.split("_");
+
+        template = template.replace("x1", split[0]);
+        template = template.replace("x2", split[1]);
+        template = template.replace("x3", split[2]);
+        template = template.replace("x4", split[3]);
+        template = template.replace("x5", split[4]);
+        template = template.replace("x6", no_hp);
+        template = template.replace("x7", String.valueOf(id_status));
+        template = template.replace("x8", l1);
+        template = template.replace("x9", l2);
+
+
+
+        apiService.saveBatch(template).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()) {
+                    setStatus("success");
+                }else{
+                    setStatus("failed");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                setStatus("error");
+            }
+        });
+
+    }
+
+    public void setStatus(String x){
+        this.status = x;
+        if(status.equalsIgnoreCase("success")){
+            Toast.makeText(getApplicationContext(), "Transaksi berhasil dilakukan", Toast.LENGTH_LONG).show();
+            alertDialog.dismiss();
+        }else{
+            Toast.makeText(getApplicationContext(), "Transaksi gagal dilakukan, mohon cek internet dan coba lagi", Toast.LENGTH_LONG).show();
+        }
+        progressBar.setVisibility(View.GONE);
+
+    }
+
+    public void closeActivity(){
+        this.finish();
     }
 
 }

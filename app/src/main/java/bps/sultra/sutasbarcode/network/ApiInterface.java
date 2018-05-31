@@ -19,17 +19,10 @@ import retrofit2.http.Query;
  */
 
 public interface ApiInterface {
-    @POST("batch")
-//    @FormUrlEncoded
-    Call<Batch> savePost(@Body Batch batch);
-
-    @POST("hp")
-    @FormUrlEncoded
-    Call<Hp> saveHp(@Field("no_hp") String no_hp,
-                      @Field("nama") String nama,
-                      @Field("id_status") long id_status);
-
     @POST("hp")
     Call<String> saveHp2(@Body String body);
+
+    @POST("batch")
+    Call<String> saveBatch(@Body String body);
 
 }
