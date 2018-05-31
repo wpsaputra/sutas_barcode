@@ -22,6 +22,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import bps.sultra.sutasbarcode.R;
+import bps.sultra.sutasbarcode.database.ModelLogin;
+import bps.sultra.sutasbarcode.model.Login;
 import bps.sultra.sutasbarcode.network.ApiClient;
 import bps.sultra.sutasbarcode.network.ApiInterface;
 import retrofit2.Call;
@@ -46,7 +48,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        showRegistrasiDialog(this);
+        ModelLogin modelLogin = new ModelLogin(this);
+        if(modelLogin.getById(1).getFlag()!=1){
+            showRegistrasiDialog(this);
+        }
+
     }
 
     private void transparentToolbar() {
@@ -124,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    public void saveHp(String no_hp, String nama, int id_status) {
+    public void saveHp(final String no_hp, final String nama, final int id_status) {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         String template = "{\"no_hp\":\"x1\", \"nama\":\"x2\", \"id_status\":x3}";
         template = template.replace("x1", no_hp);
@@ -136,24 +142,35 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()) {
-                    setStatus("success");
+                    setStatus("success", no_hp, nama, id_status);
                 }else{
-                    setStatus("failed");
+                    setStatus("failed", no_hp, nama, id_status);
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                setStatus("error");
+                setStatus("error", no_hp, nama, id_status);
             }
         });
 
     }
 
-    public void setStatus(String x){
+    public void setStatus(String x, String no_hp, String nama, int id_status){
         this.status = x;
         if(status.equalsIgnoreCase("success")){
             Toast.makeText(getApplicationContext(), "Transaksi berhasil dilakukan", Toast.LENGTH_LONG).show();
+            Login login = new Login();
+            login.setId(1);
+            login.setNama(nama);
+            login.setNo_hp(no_hp);
+            login.setNama(nama);
+            login.setId_status(id_status);
+            login.setFlag(1);
+
+            ModelLogin modelLogin = new ModelLogin(getApplicationContext());
+            modelLogin.update(login);
+
             alertDialog.dismiss();
         }else{
             Toast.makeText(getApplicationContext(), "Transaksi gagal dilakukan, mohon cek internet dan coba lagi", Toast.LENGTH_LONG).show();
