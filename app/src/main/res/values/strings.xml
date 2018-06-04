@@ -3,8 +3,6 @@
     <string name="lbl_scan">Scan QR Code</string>
     <string name="lbl_sent">Kirim QR Code</string>
     <string-array name="status_array">
-        <item>TU Kabupaten</item>
-        <item>IPDS Kabupaten</item>
         <item>TU Provinsi</item>
         <item>IPDS Provinsi</item>
         <item>Pengentri</item>

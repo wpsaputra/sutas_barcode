@@ -138,7 +138,7 @@ public class SentActivity extends AppCompatActivity {
     public void saveBatch(final String blok, final String no_hp, final int id_status, final String l1, final String l2) {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         String template = "{\"kode_prop\":\"x1\",\"kode_kab\":\"x2\",\"kode_kec\":\"x3\"," +
-                "\"kode_desa\":\"x4\",\"kode_bs\":\"x5\",\"no_hp\":\"x6\",\"id_status\":x7,\"jumlah_l1\":x8,\"jumlah_l2\":x9}";
+                "\"kode_desa\":\"x4\",\"kode_bs\":\"x5\",\"no_hp\":\"x6\",\"id_posisi\":x7,\"jumlah_l1\":x8,\"jumlah_l2\":x9}";
 //        template = template.replace("x1", no_hp);
 //        template = template.replace("x2", nama);
 //        template = template.replace("x3", String.valueOf(id_status));
