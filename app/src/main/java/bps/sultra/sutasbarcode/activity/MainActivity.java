@@ -9,7 +9,6 @@ import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -138,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         template = template.replace("x3", String.valueOf(id_status));
 
 
-        apiService.saveHp2(template).enqueue(new Callback<String>() {
+        apiService.saveHp(template).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()) {

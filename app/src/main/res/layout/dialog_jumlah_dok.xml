@@ -70,6 +70,22 @@
         android:layout_height="wrap_content" />
 
     <EditText
+        android:id="@+id/editposisisebelum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:enabled="false"
+        android:hint="Posisi Sebelum"
+        android:inputType="text"
+        android:textSize="14sp" />
+
+    <Spinner
+        android:id="@+id/spinner_posisi_sekarang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
         android:id="@+id/editl1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

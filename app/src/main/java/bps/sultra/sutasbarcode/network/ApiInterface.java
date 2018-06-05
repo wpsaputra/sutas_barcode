@@ -20,9 +20,13 @@ import retrofit2.http.Query;
 
 public interface ApiInterface {
     @POST("hp")
-    Call<String> saveHp2(@Body String body);
+    Call<String> saveHp(@Body String body);
 
     @POST("batch")
     Call<String> saveBatch(@Body String body);
+
+//    https://sultradata.com/project/sutas_web_api/api.php/batch?filter=id_barcode,eq,74_01_050_016_006B&order=date_terima,desc
+    @GET("batch")
+    Call<JsonObject> getBatchByBarcode(@Query("filter") String barcode, @Query("order") String order);
 
 }

@@ -7,4 +7,11 @@
         <item>IPDS Provinsi</item>
         <item>Pengentri</item>
     </string-array>
+    <string-array name="posisi_array">
+        <item>Penerimaan TU Provinsi</item>
+        <item>Penerimaan TU Provinsi</item>
+        <item>Penerimaan IPDS Provinsi</item>
+        <item>Entri Dokumen</item>
+        <item>Validasi Dokumen</item>
+    </string-array>
 </resources>

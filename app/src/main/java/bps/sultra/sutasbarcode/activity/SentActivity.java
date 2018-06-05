@@ -22,6 +22,8 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+
 import java.util.List;
 
 import bps.sultra.sutasbarcode.R;
@@ -40,6 +42,9 @@ public class SentActivity extends AppCompatActivity {
     String barcode, status;
     AlertDialog alertDialog;
     ProgressBar progressBar;
+    EditText edit_posisi_sebelum;
+
+    Button btn_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +52,7 @@ public class SentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sent);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Button btn_back = findViewById(R.id.btn_back);
+        btn_back = findViewById(R.id.btn_back);
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,6 +61,8 @@ public class SentActivity extends AppCompatActivity {
         });
 
         barcode = getIntent().getStringExtra("code");
+        getBatchByBarcode(barcode, this);
+
         showDokDialog(this);
     }
 
@@ -71,6 +78,8 @@ public class SentActivity extends AppCompatActivity {
         final EditText edit_no_hp = (EditText) promptsView.findViewById(R.id.edithp);
         final EditText edit_nama = (EditText) promptsView.findViewById(R.id.editnama);
         final Spinner spinner_status = promptsView.findViewById(R.id.spinner_status);
+
+        edit_posisi_sebelum = (EditText) promptsView.findViewById(R.id.editposisisebelum);
         progressBar = promptsView.findViewById(R.id.progressBar);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -88,6 +97,8 @@ public class SentActivity extends AppCompatActivity {
         final EditText edit_l2 = (EditText) promptsView.findViewById(R.id.editl2);
 
         edit_blok.setText(barcode);
+        // get posisi sebelum
+//        getBatchByBarcode(barcode);
 
 
         // set dialog message
@@ -188,6 +199,33 @@ public class SentActivity extends AppCompatActivity {
 
     public void closeActivity(){
         this.finish();
+    }
+
+    public void getBatchByBarcode(String barcode, final Context context){
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        String template = "id_barcode,eq,x1";
+        template = template.replace("x1", barcode);
+
+        apiService.getBatchByBarcode(template, "date_terima,desc").enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+//                edit_posisi_sebelum.setText(response.message());
+                Log.d("batch_barcode", response.message());
+                Toast.makeText(context, response.body().toString(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, call.request().url().toString(), Toast.LENGTH_LONG).show();
+                btn_back.setText(call.request().url().toString());
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+//                edit_posisi_sebelum.setText(t.getMessage());
+                Log.e("batch_barcode", t.getMessage());
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+                btn_back.setText(call.request().url().toString());
+
+            }
+        });
+
     }
 
 }
