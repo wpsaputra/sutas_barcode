@@ -76,7 +76,7 @@
         android:layout_marginBottom="10dp"
         android:ems="10"
         android:enabled="false"
-        android:hint="Posisi Sebelum"
+        android:hint="Posisi Sebelum : -"
         android:inputType="text"
         android:textSize="14sp" />
 

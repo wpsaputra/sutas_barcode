@@ -1,128 +1,158 @@
 package bps.sultra.sutasbarcode.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Batch {
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("kode_prop")
-    @Expose
-    private String kodeProp;
-    @SerializedName("kode_kab")
-    @Expose
-    private String kodeKab;
-    @SerializedName("kode_kec")
-    @Expose
-    private String kodeKec;
-    @SerializedName("kode_desa")
-    @Expose
-    private String kodeDesa;
-    @SerializedName("kode_bs")
-    @Expose
-    private String kodeBs;
-    @SerializedName("no_hp")
-    @Expose
-    private String noHp;
-    @SerializedName("id_status")
-    @Expose
-    private Integer idStatus;
-    @SerializedName("jumlah_l1")
-    @Expose
-    private Integer jumlahL1;
-    @SerializedName("jumlah_l2")
-    @Expose
-    private Integer jumlahL2;
-    @SerializedName("date_terima")
-    @Expose
-    private String dateTerima;
+public class Batch implements Parcelable {
+    String id, kode_prop, kode_kab, kode_kec, kode_desa, kode_bs, id_barcode, no_hp, id_posisi, jumlah_l1, jumlah_l2, date_terima;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getKodeProp() {
-        return kodeProp;
+    public String getKode_prop() {
+        return kode_prop;
     }
 
-    public void setKodeProp(String kodeProp) {
-        this.kodeProp = kodeProp;
+    public void setKode_prop(String kode_prop) {
+        this.kode_prop = kode_prop;
     }
 
-    public String getKodeKab() {
-        return kodeKab;
+    public String getKode_kab() {
+        return kode_kab;
     }
 
-    public void setKodeKab(String kodeKab) {
-        this.kodeKab = kodeKab;
+    public void setKode_kab(String kode_kab) {
+        this.kode_kab = kode_kab;
     }
 
-    public String getKodeKec() {
-        return kodeKec;
+    public String getKode_kec() {
+        return kode_kec;
     }
 
-    public void setKodeKec(String kodeKec) {
-        this.kodeKec = kodeKec;
+    public void setKode_kec(String kode_kec) {
+        this.kode_kec = kode_kec;
     }
 
-    public String getKodeDesa() {
-        return kodeDesa;
+    public String getKode_desa() {
+        return kode_desa;
     }
 
-    public void setKodeDesa(String kodeDesa) {
-        this.kodeDesa = kodeDesa;
+    public void setKode_desa(String kode_desa) {
+        this.kode_desa = kode_desa;
     }
 
-    public String getKodeBs() {
-        return kodeBs;
+    public String getKode_bs() {
+        return kode_bs;
     }
 
-    public void setKodeBs(String kodeBs) {
-        this.kodeBs = kodeBs;
+    public void setKode_bs(String kode_bs) {
+        this.kode_bs = kode_bs;
     }
 
-    public String getNoHp() {
-        return noHp;
+    public String getId_barcode() {
+        return id_barcode;
     }
 
-    public void setNoHp(String noHp) {
-        this.noHp = noHp;
+    public void setId_barcode(String id_barcode) {
+        this.id_barcode = id_barcode;
     }
 
-    public Integer getIdStatus() {
-        return idStatus;
+    public String getNo_hp() {
+        return no_hp;
     }
 
-    public void setIdStatus(Integer idStatus) {
-        this.idStatus = idStatus;
+    public void setNo_hp(String no_hp) {
+        this.no_hp = no_hp;
     }
 
-    public Integer getJumlahL1() {
-        return jumlahL1;
+    public String getId_posisi() {
+        return id_posisi;
     }
 
-    public void setJumlahL1(Integer jumlahL1) {
-        this.jumlahL1 = jumlahL1;
+    public void setId_posisi(String id_posisi) {
+        this.id_posisi = id_posisi;
     }
 
-    public Integer getJumlahL2() {
-        return jumlahL2;
+    public String getJumlah_l1() {
+        return jumlah_l1;
     }
 
-    public void setJumlahL2(Integer jumlahL2) {
-        this.jumlahL2 = jumlahL2;
+    public void setJumlah_l1(String jumlah_l1) {
+        this.jumlah_l1 = jumlah_l1;
     }
 
-    public String getDateTerima() {
-        return dateTerima;
+    public String getJumlah_l2() {
+        return jumlah_l2;
     }
 
-    public void setDateTerima(String dateTerima) {
-        this.dateTerima = dateTerima;
+    public void setJumlah_l2(String jumlah_l2) {
+        this.jumlah_l2 = jumlah_l2;
     }
+
+    public String getDate_terima() {
+        return date_terima;
+    }
+
+    public void setDate_terima(String date_terima) {
+        this.date_terima = date_terima;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.kode_prop);
+        dest.writeString(this.kode_kab);
+        dest.writeString(this.kode_kec);
+        dest.writeString(this.kode_desa);
+        dest.writeString(this.kode_bs);
+        dest.writeString(this.id_barcode);
+        dest.writeString(this.no_hp);
+        dest.writeString(this.id_posisi);
+        dest.writeString(this.jumlah_l1);
+        dest.writeString(this.jumlah_l2);
+        dest.writeString(this.date_terima);
+    }
+
+    public Batch() {
+    }
+
+    protected Batch(Parcel in) {
+        this.id = in.readString();
+        this.kode_prop = in.readString();
+        this.kode_kab = in.readString();
+        this.kode_kec = in.readString();
+        this.kode_desa = in.readString();
+        this.kode_bs = in.readString();
+        this.id_barcode = in.readString();
+        this.no_hp = in.readString();
+        this.id_posisi = in.readString();
+        this.jumlah_l1 = in.readString();
+        this.jumlah_l2 = in.readString();
+        this.date_terima = in.readString();
+    }
+
+    public static final Parcelable.Creator<Batch> CREATOR = new Parcelable.Creator<Batch>() {
+        @Override
+        public Batch createFromParcel(Parcel source) {
+            return new Batch(source);
+        }
+
+        @Override
+        public Batch[] newArray(int size) {
+            return new Batch[size];
+        }
+    };
 }
