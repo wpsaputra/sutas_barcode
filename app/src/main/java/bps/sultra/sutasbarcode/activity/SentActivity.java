@@ -48,6 +48,7 @@ public class SentActivity extends AppCompatActivity {
     AlertDialog alertDialog;
     ProgressBar progressBar;
     EditText edit_posisi_sebelum;
+    ProgressBar progressBar2;
 
     Button btn_back;
 
@@ -66,6 +67,7 @@ public class SentActivity extends AppCompatActivity {
         });
 
         barcode = getIntent().getStringExtra("code");
+        progressBar2 = findViewById(R.id.progressBar2);
         getBatchByBarcode(barcode, this);
 
 //        showDokDialog(this);
@@ -329,13 +331,14 @@ public class SentActivity extends AppCompatActivity {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         String template = "id_barcode,eq,x1";
         template = template.replace("x1", barcode);
+        progressBar2.setVisibility(View.VISIBLE);
 
         apiService.getBatchByBarcode(template, "date_terima,desc").enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 //                edit_posisi_sebelum.setText(response.message());
                 Log.d("batch_barcode", response.message());
-                Toast.makeText(context, response.body().toString(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, response.body().toString(), Toast.LENGTH_LONG).show();
 //                Toast.makeText(context, call.request().url().toString(), Toast.LENGTH_LONG).show();
 //                btn_back.setText(call.request().url().toString());
 
@@ -376,6 +379,8 @@ public class SentActivity extends AppCompatActivity {
                     showDokDialog(context);
                 }
 
+                progressBar2.setVisibility(View.GONE);
+
             }
 
             @Override
@@ -383,7 +388,8 @@ public class SentActivity extends AppCompatActivity {
 //                edit_posisi_sebelum.setText(t.getMessage());
                 Log.e("batch_barcode", t.getMessage());
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
-                btn_back.setText(call.request().url().toString());
+//                btn_back.setText(call.request().url().toString());
+                progressBar2.setVisibility(View.GONE);
 
             }
         });

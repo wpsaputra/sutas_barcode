@@ -85,24 +85,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/editl1"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_l1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:ems="10"
-        android:hint="Jumlah Dokumen L1"
-        android:inputType="text|number"
-        android:textSize="14sp" />
+        android:layout_marginTop="10dp">
+        <EditText
+            android:id="@+id/editl1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:hint="Jumlah Dokumen L1"
+            android:inputType="text|number"
+            android:textSize="14sp" />
+    </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/editl2"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_l2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text|number"
-        android:textSize="14sp"
-        android:hint="Jumlah Dokumen L2"/>
+        android:layout_marginTop="10dp">
+        <EditText
+            android:id="@+id/editl2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text|number"
+            android:textSize="14sp"
+            android:hint="Jumlah Dokumen L2"/>
+    </android.support.design.widget.TextInputLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"
