@@ -46,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, ScanActivity.class));
             }
         });
+        findViewById(R.id.btn_status).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, WebActivity.class));
+            }
+        });
 
         ModelLogin modelLogin = new ModelLogin(this);
         if(modelLogin.getById(1).getFlag()!=1){
