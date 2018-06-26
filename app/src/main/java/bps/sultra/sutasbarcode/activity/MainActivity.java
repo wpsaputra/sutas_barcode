@@ -9,6 +9,7 @@ import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -20,8 +21,15 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import bps.sultra.sutasbarcode.R;
 import bps.sultra.sutasbarcode.database.ModelLogin;
+import bps.sultra.sutasbarcode.model.Batch;
 import bps.sultra.sutasbarcode.model.Login;
 import bps.sultra.sutasbarcode.network.ApiClient;
 import bps.sultra.sutasbarcode.network.ApiInterface;
@@ -120,7 +128,8 @@ public class MainActivity extends AppCompatActivity {
                         // TODO Do something
                         if(edit_no_hp.getText().toString().length()>11&&edit_nama.getText().toString().length()>3){
                             //Dismiss once everything is OK.
-                            saveHp(edit_no_hp.getText().toString(), edit_nama.getText().toString(), spinner_status.getSelectedItemPosition()+1);
+                            getHpByPhoneNumber(edit_no_hp.getText().toString(), edit_nama.getText().toString(), spinner_status.getSelectedItemPosition()+1, context);
+//                            saveHp(edit_no_hp.getText().toString(), edit_nama.getText().toString(), spinner_status.getSelectedItemPosition()+1);
                             progressBar.setVisibility(View.VISIBLE);
 
                         }else{
@@ -181,6 +190,35 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Transaksi gagal dilakukan, mohon cek internet dan coba lagi", Toast.LENGTH_LONG).show();
         }
         progressBar.setVisibility(View.GONE);
+
+    }
+
+    public void getHpByPhoneNumber(final String no_hp, final String nama, final int id_status, final Context context){
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+
+        apiService.getHpByPhoneNumber(no_hp).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject hp = response.body();
+                try {
+                    if(hp.get("no_hp").getAsString().equalsIgnoreCase(no_hp)){
+                        Toast.makeText(context, "Gagal melakukan pendaftaran, sudah ada no hp yang sama segera hubungi admin", Toast.LENGTH_LONG).show();
+                    }
+                    progressBar.setVisibility(View.GONE);
+
+                }catch (Exception ex){
+                    Log.e("Error", ex.getMessage());
+                    saveHp(no_hp, nama, id_status);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e("batch_hp", t.getMessage());
+                setStatus("error", no_hp, nama, id_status);
+
+            }
+        });
 
     }
 
