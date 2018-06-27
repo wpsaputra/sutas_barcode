@@ -11,7 +11,7 @@ import bps.sultra.sutasbarcode.model.Login;
  * Created by Lenovo 17 on 4/27/2016.
  */
 public class ModelLogin extends Model{
-    String[] col = {"_id", "no_hp", "nama", "id_status", "flag"};
+    String[] col = {"_id", "no_hp", "nama", "id_status", "flag", "kode_prop"};
 
     public ModelLogin(Context ctx) {
         super(ctx);
@@ -31,6 +31,7 @@ public class ModelLogin extends Model{
         p.setNama(c.getString(c.getColumnIndex("nama")));
         p.setId_status(c.getInt(c.getColumnIndex("id_status")));
         p.setFlag(c.getInt(c.getColumnIndex("flag")));
+        p.setKode_prop(c.getInt(c.getColumnIndex("kode_prop")));
 
         return p;
     }
@@ -43,6 +44,7 @@ public class ModelLogin extends Model{
         cv.put("nama", p.getNama());
         cv.put("id_status", p.getId_status());
         cv.put("flag", p.getFlag());
+        cv.put("kode_prop", p.getKode_prop());
 
         super.update("_id", p.getId(), cv);
     }

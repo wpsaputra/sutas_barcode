@@ -4,10 +4,18 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Login implements Parcelable {
-    int id, flag, id_status;
+    int id, flag, id_status, kode_prop;
     String no_hp, nama;
 
     public Login() {
+    }
+
+    public int getKode_prop() {
+        return kode_prop;
+    }
+
+    public void setKode_prop(int kode_prop) {
+        this.kode_prop = kode_prop;
     }
 
     public int getId() {
