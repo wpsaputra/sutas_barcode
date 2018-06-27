@@ -68,8 +68,23 @@ public class SentActivity extends AppCompatActivity {
 
         barcode = getIntent().getStringExtra("code");
         progressBar2 = findViewById(R.id.progressBar2);
-        getBatchByBarcode(barcode, this);
 
+        ModelLogin modelLogin = new ModelLogin(getApplicationContext());
+        if(barcode.split("_").length!=5){
+            Toast.makeText(this, "Error, Barcode bukan merupakan kode SUTAS", Toast.LENGTH_LONG).show();
+            progressBar2.setVisibility(View.GONE);
+            return;
+        }
+
+        if(!barcode.substring(0,2).equalsIgnoreCase(String.valueOf(modelLogin.getById(1).getKode_prop()))){
+            Toast.makeText(this, "Error, Kode provinsi barcode tidak sesuai dengan kode provinsi petugas", Toast.LENGTH_LONG).show();
+            progressBar2.setVisibility(View.GONE);
+            return;
+        }
+
+        getHpByPhoneNumber(modelLogin.getById(1).getNo_hp(), barcode, this);
+
+//        getBatchByBarcode(barcode, this);
 //        showDokDialog(this);
     }
 
@@ -391,6 +406,38 @@ public class SentActivity extends AppCompatActivity {
 //                btn_back.setText(call.request().url().toString());
                 progressBar2.setVisibility(View.GONE);
 
+            }
+        });
+
+    }
+
+    public void getHpByPhoneNumber(final String no_hp, final String barcode, final Context context){
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        progressBar2.setVisibility(View.VISIBLE);
+
+        apiService.getHpByPhoneNumber(no_hp).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject hp = response.body();
+                try {
+                    if(hp.get("validated").getAsInt()==1){
+                        getBatchByBarcode(barcode, context);
+                    }else{
+                        Toast.makeText(context, "Nomor HP anda belum diapprove admin, silahkan hubungi admin", Toast.LENGTH_LONG).show();
+                        progressBar2.setVisibility(View.GONE);
+                    }
+
+                }catch (Exception ex){
+                    Log.e("Error", ex.getMessage());
+                    Toast.makeText(context, "Nomor HP anda tidak terdaftar, silahkan hubungi admin", Toast.LENGTH_LONG).show();
+                    progressBar2.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e("batch_hp", t.getMessage());
+                setStatus("failed");
             }
         });
 
