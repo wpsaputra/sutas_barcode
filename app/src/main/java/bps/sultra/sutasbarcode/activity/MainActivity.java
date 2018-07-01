@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         // TODO Do something
-                        if(edit_no_hp.getText().toString().length()>11&&edit_nama.getText().toString().length()>3){
+                        if(edit_no_hp.getText().toString().length()>9&&edit_no_hp.getText().toString().length()<15&&edit_nama.getText().toString().length()>3){
                             //Dismiss once everything is OK.
                             getHpByPhoneNumber(edit_no_hp.getText().toString(), edit_nama.getText().toString(), spinner_status.getSelectedItemPosition()+1,
                                     spinner_provinsi.getSelectedItem().toString().substring(1,3), context);
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                             progressBar.setVisibility(View.VISIBLE);
 
                         }else{
-                            Toast.makeText(context, "Isian ada yang kurang lengkap/kosong", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Isian ada yang salah, kurang lengkap/kosong", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
