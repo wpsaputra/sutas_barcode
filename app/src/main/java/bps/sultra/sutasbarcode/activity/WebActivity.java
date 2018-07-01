@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 
 import bps.sultra.sutasbarcode.R;
+import bps.sultra.sutasbarcode.database.ModelLogin;
 
 public class WebActivity extends AppCompatActivity {
 
@@ -29,9 +30,12 @@ public class WebActivity extends AppCompatActivity {
         frameLayoutLoading = (FrameLayout) findViewById(R.id.frame_layout_loading);
         buttonNoInternet = (Button) findViewById(R.id.no_internet_button);
 
+        ModelLogin modelLogin = new ModelLogin(getApplicationContext());
+
         webView = (WebView) findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl("https://sultradata.com/project/sutas_webview/web/index.php?r=master");
+        webView.loadUrl("https://sultradata.com/project/sutas_webview/web/index.php?r=master&MasterSearch[prop]="
+                +modelLogin.getById(1).getKode_prop());
 
         webView.setWebViewClient(new WebViewClient(){
             @Override
