@@ -147,7 +147,7 @@ public class SentActivity extends AppCompatActivity {
 //                            saveHp(edit_no_hp.getText().toString(), edit_nama.getText().toString(), spinner_status.getSelectedItemPosition()+1);
                             if(spinner_status.getSelectedItemPosition()+1!=1){
                                 // Jika penerimaan pertama bukan TU
-                                Toast.makeText(context, "Penerimaan dokumen awal harus melewati TU", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, "Error, Penerimaan dokumen awal harus melewati TU", Toast.LENGTH_LONG).show();
                             }else{
                                 saveBatch(edit_blok.getText().toString(), edit_no_hp.getText().toString(),
                                         spinner_posisi_sekarang.getSelectedItemPosition()+1, edit_l1.getText().toString(), edit_l2.getText().toString());
@@ -155,7 +155,7 @@ public class SentActivity extends AppCompatActivity {
                             }
 
                         }else{
-                            Toast.makeText(context, "Isian jumlah L1/L2 ada yang kurang lengkap/kosong", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Error, Isian jumlah L1/L2 ada yang kurang lengkap/kosong", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -233,13 +233,19 @@ public class SentActivity extends AppCompatActivity {
 
                             if(spinner_status.getSelectedItemPosition()+1==1&&spinner_posisi_sekarang.getSelectedItemPosition()+1>1){
                                 // Jika penerimaan pertama bukan TU
-                                Toast.makeText(context, "TU hanya boleh melakukan penerimaan TU", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, "Error, TU hanya boleh melakukan penerimaan TU", Toast.LENGTH_LONG).show();
                                 return;
                             }
 
                             if(spinner_status.getSelectedItemPosition()+1==3&&spinner_posisi_sekarang.getSelectedItemPosition()+1<3){
                                 // Jika penerimaan pertama bukan TU
-                                Toast.makeText(context, "Pengentri hanya boleh melakukan entri atau validasi", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, "Error, Pengentri hanya boleh melakukan entri atau validasi", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+
+                            if(spinner_posisi_sekarang.getSelectedItemPosition()+1>5){
+                                // Jika penerimaan pertama bukan TU
+                                Toast.makeText(context, "Error, Posisi terakhir hanya sampai gudang penyimpanan", Toast.LENGTH_LONG).show();
                                 return;
                             }
 
@@ -247,7 +253,7 @@ public class SentActivity extends AppCompatActivity {
                                     spinner_posisi_sekarang.getSelectedItemPosition()+1, edit_l1.getText().toString(), edit_l2.getText().toString());
                             progressBar.setVisibility(View.VISIBLE);
                         }else{
-                            Toast.makeText(context, "Isian jumlah L1/L2 ada yang kurang lengkap/kosong", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Error, Isian jumlah L1/L2 ada yang kurang lengkap/kosong", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -259,6 +265,10 @@ public class SentActivity extends AppCompatActivity {
         edit_l2.setText(batch.getJumlah_l2());
         edit_l1.setEnabled(false);
         edit_l2.setEnabled(false);
+
+        // IF IPDS
+        edit_l1.setEnabled(modelLogin.getById(1).getId_status()==2);
+        edit_l2.setEnabled(modelLogin.getById(1).getId_status()==2);
 
         String[] posisi_array = getResources().getStringArray(R.array.posisi_array);
         edit_posisi_sebelum.setText("Posisi Sebelum : "+posisi_array[Integer.parseInt(batch.getId_posisi())-1]+" ("+batch.getId_posisi()+")");
