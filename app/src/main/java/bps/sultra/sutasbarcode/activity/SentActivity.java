@@ -145,9 +145,9 @@ public class SentActivity extends AppCompatActivity {
                         if(edit_l1.getText().toString().length()>0&&edit_l2.getText().toString().length()>0){
                             //Dismiss once everything is OK.
 //                            saveHp(edit_no_hp.getText().toString(), edit_nama.getText().toString(), spinner_status.getSelectedItemPosition()+1);
-                            if(spinner_status.getSelectedItemPosition()+1!=1){
+                            if(spinner_status.getSelectedItemPosition()+1!=1||spinner_status.getSelectedItemPosition()+1!=2){
                                 // Jika penerimaan pertama bukan TU
-                                Toast.makeText(context, "Error, Penerimaan dokumen awal harus melewati TU", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, "Error, Penerimaan dokumen awal harus melewati TU/IPDS", Toast.LENGTH_LONG).show();
                             }else{
                                 saveBatch(edit_blok.getText().toString(), edit_no_hp.getText().toString(),
                                         spinner_posisi_sekarang.getSelectedItemPosition()+1, edit_l1.getText().toString(), edit_l2.getText().toString());
@@ -238,6 +238,12 @@ public class SentActivity extends AppCompatActivity {
                             }
 
                             if(spinner_status.getSelectedItemPosition()+1==3&&spinner_posisi_sekarang.getSelectedItemPosition()+1<3){
+                                // Jika penerimaan pertama bukan TU
+                                Toast.makeText(context, "Error, Pengentri hanya boleh melakukan entri atau validasi", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+
+                            if(spinner_status.getSelectedItemPosition()+1==3&&spinner_posisi_sekarang.getSelectedItemPosition()+1>4){
                                 // Jika penerimaan pertama bukan TU
                                 Toast.makeText(context, "Error, Pengentri hanya boleh melakukan entri atau validasi", Toast.LENGTH_LONG).show();
                                 return;
