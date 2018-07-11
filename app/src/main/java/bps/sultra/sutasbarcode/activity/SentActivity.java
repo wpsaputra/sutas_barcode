@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -145,9 +146,36 @@ public class SentActivity extends AppCompatActivity {
                         if(edit_l1.getText().toString().length()>0&&edit_l2.getText().toString().length()>0){
                             //Dismiss once everything is OK.
 //                            saveHp(edit_no_hp.getText().toString(), edit_nama.getText().toString(), spinner_status.getSelectedItemPosition()+1);
-                            if(spinner_status.getSelectedItemPosition()+1!=1||spinner_status.getSelectedItemPosition()+1!=2){
+                            if(spinner_status.getSelectedItemPosition()+1==1&&spinner_posisi_sekarang.getSelectedItemPosition()+1>1){
                                 // Jika penerimaan pertama bukan TU
+                                Toast.makeText(context, "Error, TU hanya boleh melakukan penerimaan TU", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+
+                            if(spinner_status.getSelectedItemPosition()+1==3&&spinner_posisi_sekarang.getSelectedItemPosition()+1<3){
+                                // Jika penerimaan pertama bukan TU
+                                Toast.makeText(context, "Error, Pengentri hanya boleh melakukan entri atau validasi", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+
+                            if(spinner_status.getSelectedItemPosition()+1==3&&spinner_posisi_sekarang.getSelectedItemPosition()+1>4){
+                                // Jika penerimaan pertama bukan TU
+                                Toast.makeText(context, "Error, Pengentri hanya boleh melakukan entri atau validasi", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+
+                            if(spinner_posisi_sekarang.getSelectedItemPosition()+1>5){
+                                // Jika penerimaan pertama bukan TU
+                                Toast.makeText(context, "Error, Posisi terakhir hanya sampai gudang penyimpanan", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+
+                            //penerimaan pertama
+
+                            if(spinner_status.getSelectedItemPosition()+1 > 2){
+                                // Jika penerimaan pertama bukan TU / IPDS
                                 Toast.makeText(context, "Error, Penerimaan dokumen awal harus melewati TU/IPDS", Toast.LENGTH_LONG).show();
+
                             }else{
                                 saveBatch(edit_blok.getText().toString(), edit_no_hp.getText().toString(),
                                         spinner_posisi_sekarang.getSelectedItemPosition()+1, edit_l1.getText().toString(), edit_l2.getText().toString());
@@ -166,7 +194,44 @@ public class SentActivity extends AppCompatActivity {
                 R.array.posisi_sekarang_array, R.layout.style_spinner);
         adapter2.setDropDownViewResource(R.layout.style_spinner);
         spinner_posisi_sekarang.setAdapter(adapter2);
-        spinner_posisi_sekarang.setEnabled(false);
+//        spinner_posisi_sekarang.setEnabled(false);
+
+        //custom
+        spinner_posisi_sekarang.setEnabled(spinner_status.getSelectedItemPosition()+1==2);
+        spinner_posisi_sekarang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case 0:
+                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_1);
+                        break;
+                    case 1:
+                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_2);
+                        break;
+                    case 2:
+                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_3);
+                        break;
+                    case 3:
+                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_4);
+                        break;
+                    case 4:
+                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_5);
+                        break;
+                    case 5:
+                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_6);
+                        break;
+                    default:
+                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_white);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         spinner_posisi_sekarang.setSelection(0);
 
         // show it
@@ -285,8 +350,40 @@ public class SentActivity extends AppCompatActivity {
                 R.array.posisi_sekarang_array, R.layout.style_spinner);
         adapter2.setDropDownViewResource(R.layout.style_spinner);
         spinner_posisi_sekarang.setAdapter(adapter2);
-
         spinner_posisi_sekarang.setEnabled(spinner_status.getSelectedItemPosition()+1==2);
+        spinner_posisi_sekarang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case 0:
+                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_1);
+                        break;
+                    case 1:
+                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_2);
+                        break;
+                    case 2:
+                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_3);
+                        break;
+                    case 3:
+                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_4);
+                        break;
+                    case 4:
+                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_5);
+                        break;
+                    case 5:
+                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_6);
+                        break;
+                    default:
+                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_white);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         spinner_posisi_sekarang.setSelection(Integer.parseInt(batch.getId_posisi()));
 
         // show it
