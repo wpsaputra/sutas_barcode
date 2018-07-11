@@ -164,11 +164,12 @@ public class SentActivity extends AppCompatActivity {
                                 return;
                             }
 
-                            if(spinner_posisi_sekarang.getSelectedItemPosition()+1>5){
+                            if(spinner_posisi_sekarang.getSelectedItemPosition()+1>5&&spinner_posisi_sekarang.getSelectedItemPosition()+1<7){
                                 // Jika penerimaan pertama bukan TU
                                 Toast.makeText(context, "Error, Posisi terakhir hanya sampai gudang penyimpanan", Toast.LENGTH_LONG).show();
                                 return;
                             }
+
 
                             //penerimaan pertama
 
@@ -177,6 +178,14 @@ public class SentActivity extends AppCompatActivity {
                                 Toast.makeText(context, "Error, Penerimaan dokumen awal harus melewati TU/IPDS", Toast.LENGTH_LONG).show();
 
                             }else{
+                                if(spinner_posisi_sekarang.getSelectedItemPosition()+1==7){
+                                    // Jika penerimaan QC
+                                    saveBatch(edit_blok.getText().toString(), edit_no_hp.getText().toString(),
+                                            6, edit_l1.getText().toString(), edit_l2.getText().toString());
+                                    progressBar.setVisibility(View.VISIBLE);
+                                    return;
+                                }
+
                                 saveBatch(edit_blok.getText().toString(), edit_no_hp.getText().toString(),
                                         spinner_posisi_sekarang.getSelectedItemPosition()+1, edit_l1.getText().toString(), edit_l2.getText().toString());
                                 progressBar.setVisibility(View.VISIBLE);
@@ -219,6 +228,9 @@ public class SentActivity extends AppCompatActivity {
                         break;
                     case 5:
                         spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_6);
+                        break;
+                    case 6:
+                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_7);
                         break;
                     default:
                         spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_white);
@@ -314,10 +326,17 @@ public class SentActivity extends AppCompatActivity {
                                 return;
                             }
 
-                            if(spinner_posisi_sekarang.getSelectedItemPosition()+1>5){
+                            if(spinner_posisi_sekarang.getSelectedItemPosition()+1>5&&spinner_posisi_sekarang.getSelectedItemPosition()+1<7){
                                 // Jika penerimaan pertama bukan TU
                                 Toast.makeText(context, "Error, Posisi terakhir hanya sampai gudang penyimpanan", Toast.LENGTH_LONG).show();
                                 return;
+                            }
+
+                            if(spinner_posisi_sekarang.getSelectedItemPosition()+1==7){
+                                // Jika penerimaan QC
+                                saveBatch(edit_blok.getText().toString(), edit_no_hp.getText().toString(),
+                                        6, edit_l1.getText().toString(), edit_l2.getText().toString());
+                                progressBar.setVisibility(View.VISIBLE);
                             }
 
                             saveBatch(edit_blok.getText().toString(), edit_no_hp.getText().toString(),
@@ -372,6 +391,9 @@ public class SentActivity extends AppCompatActivity {
                         break;
                     case 5:
                         spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_6);
+                        break;
+                    case 6:
+                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_7);
                         break;
                     default:
                         spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_white);
