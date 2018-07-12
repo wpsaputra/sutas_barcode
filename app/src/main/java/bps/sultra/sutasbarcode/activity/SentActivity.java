@@ -89,7 +89,149 @@ public class SentActivity extends AppCompatActivity {
 //        showDokDialog(this);
     }
 
-    private void showDokDialog(final Context context) {
+//    private void showDokDialog(final Context context) {
+//        LayoutInflater li = LayoutInflater.from(this);
+//        View promptsView = li.inflate(R.layout.dialog_jumlah_dok, null);
+//
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+//
+//        alertDialogBuilder.setView(promptsView);
+//
+//        final EditText edit_blok = (EditText) promptsView.findViewById(R.id.editblok);
+//        final EditText edit_no_hp = (EditText) promptsView.findViewById(R.id.edithp);
+//        final EditText edit_nama = (EditText) promptsView.findViewById(R.id.editnama);
+//        final Spinner spinner_status = promptsView.findViewById(R.id.spinner_status);
+//        final Spinner spinner_posisi_sekarang = promptsView.findViewById(R.id.spinner_posisi_sekarang);
+//
+//        edit_posisi_sebelum = (EditText) promptsView.findViewById(R.id.editposisisebelum);
+//        progressBar = promptsView.findViewById(R.id.progressBar);
+//
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+//                R.array.status_array, R.layout.style_spinner);
+//        adapter.setDropDownViewResource(R.layout.style_spinner);
+//        spinner_status.setAdapter(adapter);
+//        spinner_status.setEnabled(false);
+//
+//        ModelLogin modelLogin = new ModelLogin(getApplicationContext());
+//        edit_no_hp.setText(modelLogin.getById(1).getNo_hp());
+//        edit_nama.setText(modelLogin.getById(1).getNama());
+//        spinner_status.setSelection(modelLogin.getById(1).getId_status()-1);
+//
+//        final EditText edit_l1 = (EditText) promptsView.findViewById(R.id.editl1);
+//        final EditText edit_l2 = (EditText) promptsView.findViewById(R.id.editl2);
+//
+//        edit_blok.setText(barcode);
+//
+//
+//        alertDialogBuilder
+//                .setCancelable(false)
+//                .setPositiveButton("Kirim", null)
+//                .setNegativeButton("Batal", null);
+//
+//        alertDialog = alertDialogBuilder.create();
+//
+//        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+//            @Override
+//            public void onShow(DialogInterface dialogInterface) {
+//                Button button = ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE);
+//                button.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        if(edit_l1.getText().toString().length()>0&&edit_l2.getText().toString().length()>0){
+//                            if(spinner_status.getSelectedItemPosition()+1==1&&spinner_posisi_sekarang.getSelectedItemPosition()+1>1){
+//                                Toast.makeText(context, "Error, TU hanya boleh melakukan penerimaan TU", Toast.LENGTH_LONG).show();
+//                                return;
+//                            }
+//
+//                            if(spinner_status.getSelectedItemPosition()+1==3&&spinner_posisi_sekarang.getSelectedItemPosition()+1<3){
+//                                Toast.makeText(context, "Error, Pengentri hanya boleh melakukan entri atau validasi", Toast.LENGTH_LONG).show();
+//                                return;
+//                            }
+//
+//                            if(spinner_status.getSelectedItemPosition()+1==3&&spinner_posisi_sekarang.getSelectedItemPosition()+1>4){
+//                                Toast.makeText(context, "Error, Pengentri hanya boleh melakukan entri atau validasi", Toast.LENGTH_LONG).show();
+//                                return;
+//                            }
+//
+//                            if(spinner_posisi_sekarang.getSelectedItemPosition()+1>5&&spinner_posisi_sekarang.getSelectedItemPosition()+1<7){
+//                                // Jika penerimaan pertama bukan TU
+//                                Toast.makeText(context, "Error, Posisi terakhir hanya sampai gudang penyimpanan", Toast.LENGTH_LONG).show();
+//                                return;
+//                            }
+//
+//
+//                            if(spinner_status.getSelectedItemPosition()+1 > 2){
+//                                Toast.makeText(context, "Error, Penerimaan dokumen awal harus melewati TU/IPDS", Toast.LENGTH_LONG).show();
+//                            }else{
+//                                if(spinner_posisi_sekarang.getSelectedItemPosition()+1==7){
+//                                    saveBatch(edit_blok.getText().toString(), edit_no_hp.getText().toString(),
+//                                            6, edit_l1.getText().toString(), edit_l2.getText().toString());
+//                                    progressBar.setVisibility(View.VISIBLE);
+//                                    return;
+//                                }
+//
+//                                saveBatch(edit_blok.getText().toString(), edit_no_hp.getText().toString(),
+//                                        spinner_posisi_sekarang.getSelectedItemPosition()+1, edit_l1.getText().toString(), edit_l2.getText().toString());
+//                                progressBar.setVisibility(View.VISIBLE);
+//                            }
+//
+//                        }else{
+//                            Toast.makeText(context, "Error, Isian jumlah L1/L2 ada yang kurang lengkap/kosong", Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                });
+//            }
+//        });
+//
+//        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
+//                R.array.posisi_sekarang_array, R.layout.style_spinner);
+//        adapter2.setDropDownViewResource(R.layout.style_spinner);
+//        spinner_posisi_sekarang.setAdapter(adapter2);
+//
+//        spinner_posisi_sekarang.setEnabled(spinner_status.getSelectedItemPosition()+1==2);
+//        spinner_posisi_sekarang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                switch (i) {
+//                    case 0:
+//                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_1);
+//                        break;
+//                    case 1:
+//                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_2);
+//                        break;
+//                    case 2:
+//                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_3);
+//                        break;
+//                    case 3:
+//                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_4);
+//                        break;
+//                    case 4:
+//                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_5);
+//                        break;
+//                    case 5:
+//                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_6);
+//                        break;
+//                    case 6:
+//                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_7);
+//                        break;
+//                    default:
+//                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_white);
+//                        break;
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
+//
+//        spinner_posisi_sekarang.setSelection(0);
+//
+//        alertDialog.show();
+//    }
+
+    private void showDokDialog(final Context context, final Batch batch) {
         LayoutInflater li = LayoutInflater.from(this);
         View promptsView = li.inflate(R.layout.dialog_jumlah_dok, null);
 
@@ -121,9 +263,6 @@ public class SentActivity extends AppCompatActivity {
         final EditText edit_l2 = (EditText) promptsView.findViewById(R.id.editl2);
 
         edit_blok.setText(barcode);
-        // get posisi sebelum
-//        getBatchByBarcode(barcode);
-
 
         // set dialog message
         alertDialogBuilder
@@ -146,6 +285,7 @@ public class SentActivity extends AppCompatActivity {
                         if(edit_l1.getText().toString().length()>0&&edit_l2.getText().toString().length()>0){
                             //Dismiss once everything is OK.
 //                            saveHp(edit_no_hp.getText().toString(), edit_nama.getText().toString(), spinner_status.getSelectedItemPosition()+1);
+
                             if(spinner_status.getSelectedItemPosition()+1==1&&spinner_posisi_sekarang.getSelectedItemPosition()+1>1){
                                 // Jika penerimaan pertama bukan TU
                                 Toast.makeText(context, "Error, TU hanya boleh melakukan penerimaan TU", Toast.LENGTH_LONG).show();
@@ -170,166 +310,10 @@ public class SentActivity extends AppCompatActivity {
                                 return;
                             }
 
-
-                            //penerimaan pertama
-
-                            if(spinner_status.getSelectedItemPosition()+1 > 2){
+                            if(batch==null&&spinner_status.getSelectedItemPosition()+1 > 2){
                                 // Jika penerimaan pertama bukan TU / IPDS
                                 Toast.makeText(context, "Error, Penerimaan dokumen awal harus melewati TU/IPDS", Toast.LENGTH_LONG).show();
 
-                            }else{
-                                if(spinner_posisi_sekarang.getSelectedItemPosition()+1==7){
-                                    // Jika penerimaan QC
-                                    saveBatch(edit_blok.getText().toString(), edit_no_hp.getText().toString(),
-                                            6, edit_l1.getText().toString(), edit_l2.getText().toString());
-                                    progressBar.setVisibility(View.VISIBLE);
-                                    return;
-                                }
-
-                                saveBatch(edit_blok.getText().toString(), edit_no_hp.getText().toString(),
-                                        spinner_posisi_sekarang.getSelectedItemPosition()+1, edit_l1.getText().toString(), edit_l2.getText().toString());
-                                progressBar.setVisibility(View.VISIBLE);
-                            }
-
-                        }else{
-                            Toast.makeText(context, "Error, Isian jumlah L1/L2 ada yang kurang lengkap/kosong", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-            }
-        });
-
-        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
-                R.array.posisi_sekarang_array, R.layout.style_spinner);
-        adapter2.setDropDownViewResource(R.layout.style_spinner);
-        spinner_posisi_sekarang.setAdapter(adapter2);
-//        spinner_posisi_sekarang.setEnabled(false);
-
-        //custom
-        spinner_posisi_sekarang.setEnabled(spinner_status.getSelectedItemPosition()+1==2);
-        spinner_posisi_sekarang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (i) {
-                    case 0:
-                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_1);
-                        break;
-                    case 1:
-                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_2);
-                        break;
-                    case 2:
-                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_3);
-                        break;
-                    case 3:
-                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_4);
-                        break;
-                    case 4:
-                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_5);
-                        break;
-                    case 5:
-                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_6);
-                        break;
-                    case 6:
-                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_7);
-                        break;
-                    default:
-                        spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_white);
-                        break;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        spinner_posisi_sekarang.setSelection(0);
-
-        // show it
-        alertDialog.show();
-    }
-
-    private void showDokDialog(final Context context, Batch batch) {
-        LayoutInflater li = LayoutInflater.from(this);
-        View promptsView = li.inflate(R.layout.dialog_jumlah_dok, null);
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-        alertDialogBuilder.setView(promptsView);
-
-        final EditText edit_blok = (EditText) promptsView.findViewById(R.id.editblok);
-        final EditText edit_no_hp = (EditText) promptsView.findViewById(R.id.edithp);
-        final EditText edit_nama = (EditText) promptsView.findViewById(R.id.editnama);
-        final Spinner spinner_status = promptsView.findViewById(R.id.spinner_status);
-        final Spinner spinner_posisi_sekarang = promptsView.findViewById(R.id.spinner_posisi_sekarang);
-
-        edit_posisi_sebelum = (EditText) promptsView.findViewById(R.id.editposisisebelum);
-        progressBar = promptsView.findViewById(R.id.progressBar);
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.status_array, R.layout.style_spinner);
-        adapter.setDropDownViewResource(R.layout.style_spinner);
-        spinner_status.setAdapter(adapter);
-        spinner_status.setEnabled(false);
-
-        ModelLogin modelLogin = new ModelLogin(getApplicationContext());
-        edit_no_hp.setText(modelLogin.getById(1).getNo_hp());
-        edit_nama.setText(modelLogin.getById(1).getNama());
-        spinner_status.setSelection(modelLogin.getById(1).getId_status()-1);
-
-        final EditText edit_l1 = (EditText) promptsView.findViewById(R.id.editl1);
-        final EditText edit_l2 = (EditText) promptsView.findViewById(R.id.editl2);
-
-        edit_blok.setText(barcode);
-        // get posisi sebelum
-//        getBatchByBarcode(barcode);
-
-
-        // set dialog message
-        alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton("Kirim", null)
-                .setNegativeButton("Batal", null);
-
-        // create alert dialog
-        alertDialog = alertDialogBuilder.create();
-
-        // add listener
-        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-                Button button = ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // TODO Do something
-                        if(edit_l1.getText().toString().length()>0&&edit_l2.getText().toString().length()>0){
-                            //Dismiss once everything is OK.
-//                            saveHp(edit_no_hp.getText().toString(), edit_nama.getText().toString(), spinner_status.getSelectedItemPosition()+1);
-
-                            if(spinner_status.getSelectedItemPosition()+1==1&&spinner_posisi_sekarang.getSelectedItemPosition()+1>1){
-                                // Jika penerimaan pertama bukan TU
-                                Toast.makeText(context, "Error, TU hanya boleh melakukan penerimaan TU", Toast.LENGTH_LONG).show();
-                                return;
-                            }
-
-                            if(spinner_status.getSelectedItemPosition()+1==3&&spinner_posisi_sekarang.getSelectedItemPosition()+1<3){
-                                // Jika penerimaan pertama bukan TU
-                                Toast.makeText(context, "Error, Pengentri hanya boleh melakukan entri atau validasi", Toast.LENGTH_LONG).show();
-                                return;
-                            }
-
-                            if(spinner_status.getSelectedItemPosition()+1==3&&spinner_posisi_sekarang.getSelectedItemPosition()+1>4){
-                                // Jika penerimaan pertama bukan TU
-                                Toast.makeText(context, "Error, Pengentri hanya boleh melakukan entri atau validasi", Toast.LENGTH_LONG).show();
-                                return;
-                            }
-
-                            if(spinner_posisi_sekarang.getSelectedItemPosition()+1>5&&spinner_posisi_sekarang.getSelectedItemPosition()+1<7){
-                                // Jika penerimaan pertama bukan TU
-                                Toast.makeText(context, "Error, Posisi terakhir hanya sampai gudang penyimpanan", Toast.LENGTH_LONG).show();
-                                return;
                             }
 
                             if(spinner_posisi_sekarang.getSelectedItemPosition()+1==7){
@@ -350,26 +334,33 @@ public class SentActivity extends AppCompatActivity {
             }
         });
 
-        //custom for batch
-        edit_l1.setText(batch.getJumlah_l1());
-        edit_l2.setText(batch.getJumlah_l2());
-        edit_l1.setEnabled(false);
-        edit_l2.setEnabled(false);
-
-        // IF IPDS
-        edit_l1.setEnabled(modelLogin.getById(1).getId_status()==2);
-        edit_l2.setEnabled(modelLogin.getById(1).getId_status()==2);
-
-        String[] posisi_array = getResources().getStringArray(R.array.posisi_array);
-        edit_posisi_sebelum.setText("Posisi Sebelum : "+posisi_array[Integer.parseInt(batch.getId_posisi())-1]+" ("+batch.getId_posisi()+")");
-//        edit_posisi_sebelum.setText("Posisi Sebelum : "+batch.getId_posisi()+posisi_array[0]);
-        edit_posisi_sebelum.setEnabled(false);
-
+        //custom for all
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
                 R.array.posisi_sekarang_array, R.layout.style_spinner);
         adapter2.setDropDownViewResource(R.layout.style_spinner);
         spinner_posisi_sekarang.setAdapter(adapter2);
         spinner_posisi_sekarang.setEnabled(spinner_status.getSelectedItemPosition()+1==2);
+
+        //custom for batch
+        if (batch == null) {
+
+
+        }else{
+            edit_l1.setText(batch.getJumlah_l1());
+            edit_l2.setText(batch.getJumlah_l2());
+            edit_l1.setEnabled(false);
+            edit_l2.setEnabled(false);
+
+            // IF IPDS
+            edit_l1.setEnabled(modelLogin.getById(1).getId_status()==2);
+            edit_l2.setEnabled(modelLogin.getById(1).getId_status()==2);
+
+            String[] posisi_array = getResources().getStringArray(R.array.posisi_array);
+            edit_posisi_sebelum.setText("Posisi Sebelum : "+posisi_array[Integer.parseInt(batch.getId_posisi())-1]+" ("+batch.getId_posisi()+")");
+            edit_posisi_sebelum.setEnabled(false);
+            spinner_posisi_sekarang.setSelection(Integer.parseInt(batch.getId_posisi()));
+        }
+
         spinner_posisi_sekarang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -406,7 +397,7 @@ public class SentActivity extends AppCompatActivity {
 
             }
         });
-        spinner_posisi_sekarang.setSelection(Integer.parseInt(batch.getId_posisi()));
+
 
         // show it
         alertDialog.show();
@@ -486,12 +477,7 @@ public class SentActivity extends AppCompatActivity {
         apiService.getBatchByBarcode(template, "date_terima,desc").enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-//                edit_posisi_sebelum.setText(response.message());
                 Log.d("batch_barcode", response.message());
-//                Toast.makeText(context, response.body().toString(), Toast.LENGTH_LONG).show();
-//                Toast.makeText(context, call.request().url().toString(), Toast.LENGTH_LONG).show();
-//                btn_back.setText(call.request().url().toString());
-
 
                 JsonObject batch = response.body();
 //                String json = batch.get("batch").getAsJsonObject().get("records").getAsJsonArray().toString();
@@ -522,11 +508,10 @@ public class SentActivity extends AppCompatActivity {
                     Log.e("Error", ex.getMessage());
                 }
 
-//                btn_back.setText(batchList.get(0).getId_posisi());
                 if(batchList.size()>0){
                     showDokDialog(context, batchList.get(0));
                 }else{
-                    showDokDialog(context);
+                    showDokDialog(context, null);
                 }
 
                 progressBar2.setVisibility(View.GONE);
@@ -535,10 +520,8 @@ public class SentActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-//                edit_posisi_sebelum.setText(t.getMessage());
                 Log.e("batch_barcode", t.getMessage());
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
-//                btn_back.setText(call.request().url().toString());
                 progressBar2.setVisibility(View.GONE);
 
             }
