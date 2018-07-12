@@ -261,6 +261,7 @@ public class SentActivity extends AppCompatActivity {
 
         final EditText edit_l1 = (EditText) promptsView.findViewById(R.id.editl1);
         final EditText edit_l2 = (EditText) promptsView.findViewById(R.id.editl2);
+        final EditText edit_box = (EditText) promptsView.findViewById(R.id.editbox);
 
         edit_blok.setText(barcode);
 
@@ -285,6 +286,8 @@ public class SentActivity extends AppCompatActivity {
                         if(edit_l1.getText().toString().length()>0&&edit_l2.getText().toString().length()>0){
                             //Dismiss once everything is OK.
 //                            saveHp(edit_no_hp.getText().toString(), edit_nama.getText().toString(), spinner_status.getSelectedItemPosition()+1);
+
+                            String box = "0";
 
                             if(spinner_status.getSelectedItemPosition()+1==1&&spinner_posisi_sekarang.getSelectedItemPosition()+1>1){
                                 // Jika penerimaan pertama bukan TU
@@ -313,18 +316,36 @@ public class SentActivity extends AppCompatActivity {
                             if(batch==null&&spinner_status.getSelectedItemPosition()+1 > 2){
                                 // Jika penerimaan pertama bukan TU / IPDS
                                 Toast.makeText(context, "Error, Penerimaan dokumen awal harus melewati TU/IPDS", Toast.LENGTH_LONG).show();
+                                return;
+                            }
 
+                            if(spinner_posisi_sekarang.getSelectedItemPosition()+1==5&&edit_box.getText().toString().length()==0){
+                                Toast.makeText(context, "Error, Nomor box harus terisi untuk penyimpanan gudang", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+
+                            try{
+                                if(spinner_posisi_sekarang.getSelectedItemPosition()+1==5&&Integer.parseInt(edit_box.getText().toString())<=0){
+                                    Toast.makeText(context, "Error, Nomor box tidak boleh 0 atau minus", Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                if(spinner_posisi_sekarang.getSelectedItemPosition()+1==5&&Integer.parseInt(edit_box.getText().toString())>0){
+                                    box = edit_box.getText().toString();
+                                }
+                            }catch (Exception ex){
+                                Toast.makeText(context, "Error, Nomor box is not a valid integer", Toast.LENGTH_LONG).show();
+                                return;
                             }
 
                             if(spinner_posisi_sekarang.getSelectedItemPosition()+1==7){
                                 // Jika penerimaan QC
                                 saveBatch(edit_blok.getText().toString(), edit_no_hp.getText().toString(),
-                                        6, edit_l1.getText().toString(), edit_l2.getText().toString());
+                                        6, edit_l1.getText().toString(), edit_l2.getText().toString(), box);
                                 progressBar.setVisibility(View.VISIBLE);
                             }
 
                             saveBatch(edit_blok.getText().toString(), edit_no_hp.getText().toString(),
-                                    spinner_posisi_sekarang.getSelectedItemPosition()+1, edit_l1.getText().toString(), edit_l2.getText().toString());
+                                    spinner_posisi_sekarang.getSelectedItemPosition()+1, edit_l1.getText().toString(), edit_l2.getText().toString(), box);
                             progressBar.setVisibility(View.VISIBLE);
                         }else{
                             Toast.makeText(context, "Error, Isian jumlah L1/L2 ada yang kurang lengkap/kosong", Toast.LENGTH_LONG).show();
@@ -367,27 +388,35 @@ public class SentActivity extends AppCompatActivity {
                 switch (i) {
                     case 0:
                         spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_1);
+                        edit_box.setVisibility(View.GONE);
                         break;
                     case 1:
                         spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_2);
+                        edit_box.setVisibility(View.GONE);
                         break;
                     case 2:
                         spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_3);
+                        edit_box.setVisibility(View.GONE);
                         break;
                     case 3:
                         spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_4);
+                        edit_box.setVisibility(View.GONE);
                         break;
                     case 4:
                         spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_5);
+                        edit_box.setVisibility(View.VISIBLE);
                         break;
                     case 5:
                         spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_6);
+                        edit_box.setVisibility(View.GONE);
                         break;
                     case 6:
                         spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_7);
+                        edit_box.setVisibility(View.GONE);
                         break;
                     default:
                         spinner_posisi_sekarang.setBackgroundResource(R.drawable.bg_spinner_white);
+                        edit_box.setVisibility(View.GONE);
                         break;
                 }
             }
@@ -413,10 +442,14 @@ public class SentActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void saveBatch(final String blok, final String no_hp, final int id_posisi, final String l1, final String l2) {
+    public void saveBatch(final String blok, final String no_hp, final int id_posisi, final String l1, final String l2, final String box) {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         String template = "{\"kode_prop\":\"x1\",\"kode_kab\":\"x2\",\"kode_kec\":\"x3\"," +
-                "\"kode_desa\":\"x4\",\"kode_bs\":\"x5\",\"no_hp\":\"x6\",\"id_posisi\":x7,\"jumlah_l1\":x8,\"jumlah_l2\":x9}";
+                "\"kode_desa\":\"x4\",\"kode_bs\":\"x5\",\"no_hp\":\"x6\",\"id_posisi\":x7,\"jumlah_l1\":x8,\"jumlah_l2\":x9,\"box_gudang\":x0}";
+
+//        String template = "{\"kode_prop\":\"x1\",\"kode_kab\":\"x2\",\"kode_kec\":\"x3\"," +
+//                "\"kode_desa\":\"x4\",\"kode_bs\":\"x5\",\"no_hp\":\"x6\",\"id_posisi\":x7,\"jumlah_l1\":x8,\"jumlah_l2\":x9}";
+
 //        template = template.replace("x1", no_hp);
 //        template = template.replace("x2", nama);
 //        template = template.replace("x3", String.valueOf(id_status));
@@ -431,6 +464,7 @@ public class SentActivity extends AppCompatActivity {
         template = template.replace("x7", String.valueOf(id_posisi));
         template = template.replace("x8", l1);
         template = template.replace("x9", l2);
+        template = template.replace("x0", box);
 
 
 

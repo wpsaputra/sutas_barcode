@@ -116,6 +116,23 @@
             android:hint="Jumlah Dokumen L2"/>
     </android.support.design.widget.TextInputLayout>
 
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <EditText
+            android:id="@+id/editbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Box Gudang"
+            android:inputType="text|number"
+            android:textSize="14sp"
+            android:visibility="gone" />
+    </android.support.design.widget.TextInputLayout>
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
