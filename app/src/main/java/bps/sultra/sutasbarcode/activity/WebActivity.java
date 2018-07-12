@@ -32,10 +32,15 @@ public class WebActivity extends AppCompatActivity {
 
         ModelLogin modelLogin = new ModelLogin(getApplicationContext());
 
+        String url = "https://sultradata.com/project/sutas_webview/web/index.php?r=master&MasterSearch[prop]=x0&MasterSearch[no_hp]=x1";
+        url = url.replace("x0", String.valueOf(modelLogin.getById(1).getKode_prop()));
+        url = url.replace("x1", String.valueOf(modelLogin.getById(1).getNo_hp()));
+
         webView = (WebView) findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl("https://sultradata.com/project/sutas_webview/web/index.php?r=master&MasterSearch[prop]="
-                +modelLogin.getById(1).getKode_prop());
+//        webView.loadUrl("https://sultradata.com/project/sutas_webview/web/index.php?r=master&MasterSearch[prop]="
+//                +modelLogin.getById(1).getKode_prop());
+        webView.loadUrl(url);
 
         webView.setWebViewClient(new WebViewClient(){
             @Override
