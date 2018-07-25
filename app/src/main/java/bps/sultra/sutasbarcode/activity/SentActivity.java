@@ -59,31 +59,37 @@ public class SentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sent);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        btn_back = findViewById(R.id.btn_back);
-        btn_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                closeActivity();
+        try{
+
+            btn_back = findViewById(R.id.btn_back);
+            btn_back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    closeActivity();
+                }
+            });
+
+            barcode = getIntent().getStringExtra("code");
+            progressBar2 = findViewById(R.id.progressBar2);
+
+            ModelLogin modelLogin = new ModelLogin(getApplicationContext());
+            if(barcode.split("_").length!=5){
+                Toast.makeText(this, "Error, Barcode bukan merupakan kode SUTAS", Toast.LENGTH_LONG).show();
+                progressBar2.setVisibility(View.GONE);
+                return;
             }
-        });
 
-        barcode = getIntent().getStringExtra("code");
-        progressBar2 = findViewById(R.id.progressBar2);
+            if(!barcode.substring(0,2).equalsIgnoreCase(String.valueOf(modelLogin.getById(1).getKode_prop()))){
+                Toast.makeText(this, "Error, Kode provinsi barcode tidak sesuai dengan kode provinsi petugas", Toast.LENGTH_LONG).show();
+                progressBar2.setVisibility(View.GONE);
+                return;
+            }
 
-        ModelLogin modelLogin = new ModelLogin(getApplicationContext());
-        if(barcode.split("_").length!=5){
-            Toast.makeText(this, "Error, Barcode bukan merupakan kode SUTAS", Toast.LENGTH_LONG).show();
-            progressBar2.setVisibility(View.GONE);
-            return;
+            getHpByPhoneNumber(modelLogin.getById(1).getNo_hp(), barcode, this);
+
+        }catch (Exception ex){
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
         }
-
-        if(!barcode.substring(0,2).equalsIgnoreCase(String.valueOf(modelLogin.getById(1).getKode_prop()))){
-            Toast.makeText(this, "Error, Kode provinsi barcode tidak sesuai dengan kode provinsi petugas", Toast.LENGTH_LONG).show();
-            progressBar2.setVisibility(View.GONE);
-            return;
-        }
-
-        getHpByPhoneNumber(modelLogin.getById(1).getNo_hp(), barcode, this);
 
 //        getBatchByBarcode(barcode, this);
 //        showDokDialog(this);
@@ -494,7 +500,10 @@ public class SentActivity extends AppCompatActivity {
         }else{
             Toast.makeText(getApplicationContext(), "Transaksi gagal dilakukan, mohon cek internet dan coba lagi", Toast.LENGTH_LONG).show();
         }
-        progressBar.setVisibility(View.GONE);
+
+        if(progressBar2!=null){
+            progressBar2.setVisibility(View.GONE);
+        }
 
     }
 
