@@ -3,7 +3,9 @@ package bps.sultra.sutasbarcode.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -73,6 +75,22 @@ public class SentActivity extends AppCompatActivity {
             progressBar2 = findViewById(R.id.progressBar2);
 
             ModelLogin modelLogin = new ModelLogin(getApplicationContext());
+            if(barcode.substring(0,4).equalsIgnoreCase("http")){
+                if(progressBar!=null){
+                    progressBar.setVisibility(View.GONE);
+                }
+
+                if(progressBar2!=null){
+                    progressBar2.setVisibility(View.GONE);
+                }
+                String url = barcode;
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+                return;
+            }
+
+
             if(barcode.split("_").length!=5){
                 Toast.makeText(this, "Error, Barcode bukan merupakan kode SUTAS", Toast.LENGTH_LONG).show();
                 progressBar2.setVisibility(View.GONE);
@@ -503,6 +521,10 @@ public class SentActivity extends AppCompatActivity {
 
         if(progressBar2!=null){
             progressBar2.setVisibility(View.GONE);
+        }
+
+        if(progressBar!=null){
+            progressBar.setVisibility(View.GONE);
         }
 
     }
